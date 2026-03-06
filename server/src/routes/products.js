@@ -1,12 +1,12 @@
 import express from "express";
-import { Product } from "../models/Product.js";
+import { City } from "../models/City.js";
 
 export const productsRouter = express.Router();
 
-// GET /api/products
-productsRouter.get("/", async (req, res) => {
+// GET /api/products/cities/all
+productsRouter.get("/cities/all", async (req, res) => {
   try {
-    const items = await Product.find({ isActive: true })
+    const items = await City.find({ isActive: true })
       .sort({ createdAt: -1 })
       .limit(50)
       .lean();
@@ -17,28 +17,34 @@ productsRouter.get("/", async (req, res) => {
   }
 });
 
-// POST /api/products/seed (temporary, for testdata)
-productsRouter.post("/seed", async (req, res) => {
+// POST /api/products/ (temporary, for testdata)
+productsRouter.post("/city/seed", async (req, res) => {
   try {
-    const created = await Product.insertMany([
+    const created = await City.insertMany([
       {
-        title: "Basic T-shirt",
-        price: 199,
-        imageUrl: "https://picsum.photos/seed/tshirt/800/600",
-        description: "Soft cotton tee"
+        title: "Copenhagen Denmark",
+        price: 299,
+        frameColor: ["Black", "White", "Red"],
+        imageUrl:
+          "https://posterland.se/wp-content/uploads/Travel_Vintage_Copenhagen-539x761.jpg",
+        description: "Från Danmarks huvudstad, Köpenhamn.",
       },
       {
-        title: "Coffee Mug",
-        price: 129,
-        imageUrl: "https://picsum.photos/seed/mug/800/600",
-        description: "Ceramic mug"
+        title: "New York USA",
+        price: 299,
+        frameColor: ["Black", "White", "Red"],
+        imageUrl:
+          "https://posterland.se/wp-content/uploads/Travel_Vintage_NYC-539x761.jpg",
+        description: "Från USA, New York.",
       },
       {
-        title: "Sneakers",
-        price: 899,
-        imageUrl: "https://picsum.photos/seed/sneakers/800/600",
-        description: "Everyday sneakers"
-      }
+        title: "Roma Italia",
+        price: 299,
+        frameColor: ["Black", "White", "Red"],
+        imageUrl:
+          "https://posterland.se/wp-content/uploads/Travel_Vintage_Roma-539x761.jpg",
+        description: "Från Italiens huvudstad, Rom.",
+      },
     ]);
 
     res.status(201).json({ createdCount: created.length });
